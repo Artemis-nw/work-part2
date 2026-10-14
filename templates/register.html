@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Create Account - StoryVerse</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <script
+      src="{{ url_for('static', filename='js/theme.js') }}"
+      defer
+    ></script>
+  </head>
+  <body>
+    <header class="top-bar">
+      <a href="/" class="site-name">StoryVerse</a>
+      <div class="account-area">
+        <a href="{{ url_for('login') }}" class="account-link">Log in</a>
+      </div>
+    </header>
+
+    <nav class="main-nav">
+      <a href="#" class="nav-link">Library</a>
+      <a href="/" class="nav-link">Explore</a>
+      <a href="#" class="nav-link">Writing</a>
+      <a href="#" class="nav-link">Rankings</a>
+      <div class="settings-area">
+        <a href="/settings" class="nav-link">Settings</a>
+      </div>
+    </nav>
+
+    <main class="page-content settings-page">
+      <section class="settings-card">
+        <h1>Create your StoryVerse account</h1>
+
+        {% with messages = get_flashed_messages() %} {% if messages %} {% for
+        message in messages %}
+        <p class="form-message">{{ message }}</p>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            maxlength="30"
+            required
+          />
+
+          <label for="email">Email address</label>
+          <input id="email" type="email" name="email" required />
+
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            minlength="8"
+            required
+          />
+
+          <label for="confirm_password">Confirm password</label>
+          <input
+            id="confirm_password"
+            type="password"
+            name="confirm_password"
+            minlength="8"
+            required
+          />
+
+          <button type="submit" class="form-button">Create Account</button>
+        </form>
+
+        <p>
+          Already registered?
+          <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

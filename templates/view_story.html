@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ story['title'] }} | StoryVerse</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="top-bar">
+      <a class="site-name" href="{{ url_for('home') }}">
+        StoryVerse<span class="brand-dot">.</span>
+      </a>
+      <div class="account-area">
+        <span>Hi, {{ session.get("username") }}</span>
+        <a class="header-register" href="{{ url_for('logout') }}">Log out</a>
+      </div>
+    </header>
+
+    <main class="page-content writing-dashboard">
+      <section class="writing-intro">
+        <span class="section-kicker">YOUR STORY</span>
+        <h1>{{ story['title'] }}</h1>
+        <p>{{ story['description'] or 'No description yet.' }}</p>
+        <p>Genre: {{ story['genre'] or 'Not specified' }}</p>
+
+        <a
+          class="header-register"
+          href="{{ url_for('create_chapter', story_id=story['id']) }}"
+        >
+          + Add a chapter
+        </a>
+      </section>
+
+      <section class="stories-section">
+        <h2>Chapters</h2>
+
+        {% for chapter in chapters %}
+        <article class="story-card">
+          <h3>
+            Chapter {{ chapter['chapter_number'] }}: {{ chapter['title'] }}
+          </h3>
+          <p>Status: {{ chapter['status'] }}</p>
+          <p>Last updated: {{ chapter['updated_at'] or 'Not available' }}</p>
+        </article>
+        {% else %}
+        <p>No chapters yet. Add your first chapter above.</p>
+        {% endfor %}
+      </section>
+
+      <p>
+        <a href="{{ url_for('writing_dashboard') }}">← Back to My Writing</a>
+      </p>
+    </main>
+  </body>
+</html>

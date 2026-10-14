@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Writing | StoryVerse</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="top-bar">
+      <a class="site-name" href="{{ url_for('home') }}">
+        StoryVerse<span class="brand-dot">.</span>
+      </a>
+
+      <div class="account-area">
+        <span>Hi, {{ session.get("username") }}</span>
+        <a class="header-register" href="{{ url_for('logout') }}"> Log out </a>
+      </div>
+    </header>
+
+    <main class="page-content writing-dashboard">
+      <section class="writing-intro">
+        <span class="section-kicker">YOUR CREATIVE SPACE</span>
+        <h1>My Writing</h1>
+        <p>Continue your stories or start something new.</p>
+
+        <a class="header-register" href="{{ url_for('create_story') }}">
+          + Create a new story
+        </a>
+      </section>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <p class="flash-message {{ category }}">{{ message }}</p>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <section class="stories-section">
+        <h2>Your stories</h2>
+
+        <div class="stories-grid">
+          {% for story in stories %}
+          <article class="story-card">
+            <span class="section-kicker">
+              {{ story['genre'] or 'Uncategorized' }}
+            </span>
+
+            <a href="{{ url_for('view_story', story_id=story['id']) }}">
+              View story and chapters
+            </a>
+
+            <h3>{{ story['title'] }}</h3>
+
+            <p>
+              Status:
+              <strong>{{ story['status'] }}</strong>
+            </p>
+
+            <p>Chapters: {{ story['chapter_count'] }}</p>
+
+            <a
+              class="header-register"
+              href="{{ url_for('create_chapter',
+                                            story_id=story['id']) }}"
+            >
+              Write a chapter
+            </a>
+          </article>
+          {% else %}
+          <div class="empty-state">
+            <h3>No stories yet</h3>
+            <p>Create your first story to begin writing.</p>
+            <a class="header-register" href="{{ url_for('create_story') }}">
+              Create your first story
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <p>
+        <a href="{{ url_for('home') }}">← Back to homepage</a>
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Discover stories, explore new worlds, and share your imagination on StoryVerse."
+    />
+
+    <title>StoryVerse — Discover Your Next Story</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <header class="top-bar">
+      <a class="site-name" href="{{ url_for('home') }}"
+        >StoryVerse<span class="brand-dot">.</span></a
+      >
+
+      <div class="account-area">
+        {% if session.get("user_id") %}
+        <span class="account-link"> Hi, {{ session.get("username") }} </span>
+        <a class="header-register" href="{{ url_for('logout') }}"> Log out </a>
+        {% else %}
+        <a class="account-link" href="{{ url_for('login') }}"> Log in </a>
+        <a class="header-register" href="{{ url_for('register') }}">
+          Get started
+        </a>
+        {% endif %}
+      </div>
+    </header>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="{{ url_for('home') }}" class="nav-link active">Explore</a>
+      <a href="#" class="nav-link">Library</a>
+      <a href="{{ url_for('writing_dashboard') }}" class="nav-link">Writing</a>
+      <a href="#" class="nav-link">Rankings</a>
+
+      <div class="settings-area">
+        <a href="#" class="nav-link">Settings</a>
+      </div>
+    </nav>
+
+    <main class="page-content">
+      <section class="welcome-section">
+        <span class="hero-eyebrow">YOUR NEXT ADVENTURE STARTS HERE</span>
+
+        <h1>
+          Every story opens<br />
+          <span class="hero-highlight">a new universe.</span>
+        </h1>
+
+        <p>
+          Discover captivating stories, meet unforgettable characters, and find
+          your next favorite world.
+        </p>
+
+        <form class="search-bar" action="{{ url_for('home') }}" method="get">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+
+          <input
+            type="search"
+            name="q"
+            placeholder="Search stories, authors, genres..."
+            aria-label="Search stories"
+            value="{{ search_query }}"
+          />
+
+          <button type="submit">Discover</button>
+        </form>
+
+        <p class="hero-note">A universe of stories, waiting to be explored.</p>
+      </section>
+
+      <section class="stories-section">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">TRENDING NOW</span>
+            <h2>
+              {% if search_query %} Search Results {% else %} Popular Stories {%
+              endif %}
+            </h2>
+            <p class="section-description">
+              {% if search_query %} Results matching "{{ search_query }}". {%
+              else %} Discover stories and new releases from our community. {%
+              endif %}
+            </p>
+          </div>
+        </div>
+
+        {% if stories %}
+        <div class="story-grid">
+          {% for story in stories %}
+          <article class="story-card">
+            <div class="story-cover">
+              <span>{{ story["genre"] }}</span>
+            </div>
+
+            <h3>{{ story["title"] }}</h3>
+
+            <p>By {{ story["author"] }}</p>
+
+            {% if story["description"] %}
+            <p class="story-description">{{ story["description"] }}</p>
+            {% endif %}
+
+            <p class="story-status">{{ story["status"]|capitalize }}</p>
+          </article>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-message">
+          {% if search_query %} No published stories match your search. Try
+          another title, author, or genre. {% else %} No published stories yet.
+          Be the first to share your story! {% endif %}
+        </p>
+        {% endif %}
+      </section>
+
+      <section class="stories-section">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">FIND YOUR NEXT WORLD</span>
+            <h2>Explore by Genre</h2>
+            <p class="section-description">
+              From fantasy realms to mysteries that keep you guessing.
+            </p>
+          </div>
+        </div>
+
+        <p class="empty-message">
+          Genre sections will appear here as stories are published.
+        </p>
+      </section>
+
+      <section class="stories-section">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">PICKED FOR YOU</span>
+            <h2>Recommended for You</h2>
+          </div>
+        </div>
+
+        <p class="empty-message">
+          Recommendations will appear here as you read stories.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="site-name" href="{{ url_for('home') }}"
+        >StoryVerse<span class="brand-dot">.</span></a
+      >
+      <p>Every great journey begins with a story.</p>
+    </footer>
+  </body>
+</html>

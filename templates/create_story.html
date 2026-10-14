@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create a Story | StoryVerse</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="top-bar">
+      <a class="site-name" href="{{ url_for('home') }}">
+        StoryVerse<span class="brand-dot">.</span>
+      </a>
+      <div class="account-area">
+        <span>Hi, {{ session.get("username") }}</span>
+        <a class="header-register" href="{{ url_for('logout') }}">Log out</a>
+      </div>
+    </header>
+
+    <main class="page-content writing-dashboard">
+      <section class="writing-intro">
+        <span class="section-kicker">A NEW ADVENTURE</span>
+        <h1>Create your story</h1>
+        <p>Give your next world a name and introduce it to your readers.</p>
+      </section>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <p class="flash-message {{ category }}">{{ message }}</p>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <section class="stories-section">
+        <form
+          method="POST"
+          action="{{ url_for('create_story') }}"
+          class="story-form"
+        >
+          <label for="title">Story title *</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            maxlength="150"
+            required
+            placeholder="e.g. The Last Kingdom"
+          />
+
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="5"
+            placeholder="What is your story about?"
+          ></textarea>
+
+          <label for="genre">Genre</label>
+          <select id="genre" name="genre">
+            <option value="">Choose a genre</option>
+            <option>Fantasy</option>
+            <option>Romance</option>
+            <option>Science Fiction</option>
+            <option>Mystery</option>
+            <option>Thriller</option>
+            <option>Adventure</option>
+            <option>Drama</option>
+            <option>Horror</option>
+            <option>Historical Fiction</option>
+            <option>Other</option>
+          </select>
+
+          <label for="tags">Tags</label>
+          <input
+            type="text"
+            id="tags"
+            name="tags"
+            placeholder="magic, friendship, mystery"
+          />
+
+          <div class="form-actions">
+            <button type="submit" class="header-register">
+              Create story draft
+            </button>
+            <a href="{{ url_for('writing_dashboard') }}">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

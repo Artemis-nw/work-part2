@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - StoryVerse</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script
+      src="{{ url_for('static', filename='js/theme.js') }}"
+      defer
+    ></script>
+  </head>
+  <body>
+    <header class="top-bar">
+      <a href="/" class="site-name">StoryVerse</a>
+      <div class="account-area">
+        <a href="#" class="account-link">Log in / Register</a>
+      </div>
+    </header>
+
+    <nav class="main-nav">
+      <a href="#" class="nav-link">Library</a>
+      <a href="/" class="nav-link">Explore</a>
+      <a href="#" class="nav-link">Writing</a>
+      <a href="#" class="nav-link">Rankings</a>
+      <div class="settings-area">
+        <a href="/settings" class="nav-link active">Settings</a>
+      </div>
+    </nav>
+
+    <main class="page-content settings-page">
+      <h1>Settings</h1>
+      <p class="section-description">Customize your StoryVerse experience.</p>
+
+      <section class="settings-card">
+        <h2>Appearance</h2>
+        <p>Choose the theme you prefer when reading stories.</p>
+
+        <label for="theme-select">Website theme</label>
+
+        <select id="theme-select">
+          <option value="dark">Dark theme</option>
+          <option value="light">Light theme</option>
+        </select>
+
+        <p class="setting-note">
+          Your choice will be remembered on this browser.
+        </p>
+      </section>
+
+      <section class="settings-card">
+        <h2>Account</h2>
+        <p>
+          Account settings will be available when registration is implemented.
+        </p>
+      </section>
+
+      <section class="settings-card">
+        <h2>Help and feedback</h2>
+        <p>Help and feedback features will be added later.</p>
+      </section>
+    </main>
+  </body>
+</html>
